@@ -149,7 +149,24 @@ def run_session() -> None:
     print(f"\nSession logged: {len(completed)} done, {len(skipped)} skipped.")
 
 
+def show_history() -> None:
+    sessions = load_history()
+    if not sessions:
+        print("No workout history yet.")
+        return
+    print(f"Last {len(sessions)} sessions:\n")
+    for s in reversed(sessions):
+        done = ", ".join(s["exercises"]) if s["exercises"] else "—"
+        skip = ", ".join(s["skipped"]) if s["skipped"] else "none"
+        mins = s.get("duration_minutes", 0)
+        print(f"  {s['date']}  {mins}min  ✓ {done}  ✗ {skip}")
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] in ("--history", "history", "-H"):
+        show_history()
+        return
+
     api_key = os.environ.get("ANTHROPIC_API_KEY")
     if not api_key:
         print("Error: ANTHROPIC_API_KEY environment variable not set.", file=sys.stderr)
