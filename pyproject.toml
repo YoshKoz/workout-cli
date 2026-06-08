@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "workout-cli"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = ["anthropic>=0.40.0"]
+
+[project.scripts]
+workout = "workout:main"
+
+[tool.setuptools]
+py-modules = ["workout"]
